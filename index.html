@@ -4,18 +4,99 @@
     <meta charset="UTF-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
     />
     <meta
       http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
     />
     <title>oieeeeeeee!!!! meu primeiro app em electron</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #fff540;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: translate(-50%, -50%) scale(0.8);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(3.4);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(0.8);
+          opacity: 0.7;
+        }
+      }
+
+      .icon-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 600px;
+        height: 600px;
+      }
+
+      .spinning-icon {
+        width: 600px;
+        height: 600px;
+        animation: spin 1s linear infinite;
+      }
+
+      .text-overlay {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: bold;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        font-size: 48px;
+        text-align: center;
+        pointer-events: none;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+    </style>
   </head>
   <body>
-    <h1>oieeeeeeee!!!!! meu primeiro app em electron</h1>
+    <div class="icon-container">
+      <img src="./assets/banana.png" alt="App Icon" class="spinning-icon">
+      <div class="text-overlay" id="text-overlay">só alegria!!!!!</div>
+    </div>
+    <!-- <h1>oieeeeeeee!!!!! meu primeiro app em electron</h1>
     <p>🕺🪩</p>
-    <p id="info"></p>
+    <p id="info"></p> -->
   </body>
+  <script>
+    let counter = 1;
+    const textOverlay = document.getElementById('text-overlay');
+
+    textOverlay.textContent = `${counter} banana`;
+    
+    // A animação dura 1.5s, então atualizamos o contador a cada 1.5s
+    setInterval(() => {
+      counter++;
+      textOverlay.textContent = `${counter} banana`;
+    }, 1500); // 1500ms = 1.5s (duração da animação pulse)
+  </script>
   <script src="./renderer.js"></script>
 </html>

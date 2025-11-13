@@ -18,6 +18,25 @@ module.exports = {
   ],
   packagerConfig: {
     asar: true,
+    icon: './assets/icon', // Sem extensão! Electron Forge escolhe automaticamente (.icns, .ico, .png)
+    
+    // === INFORMAÇÕES DO APP ===
+    appBundleId: 'com.anguissauro.electron-app', // Para macOS (ID único)
+    appCategoryType: 'public.app-category.utilities', // Categoria na App Store
+    appCopyright: `Copyright © ${new Date().getFullYear()} anguissauro`, // Copyright
+    
+    // === WINDOWS ===
+    win32metadata: {
+      CompanyName: 'anguissauro',
+      FileDescription: 'banana',
+      OriginalFilename: 'banana.exe',
+      ProductName: 'banana',
+      InternalName: 'banana',
+      // RequestedExecutionLevel: 'asInvoker' // Não pede admin
+    },
+    
+    // === MACOS ===
+    darwinDarkModeSupport: true, // Suporte a Dark Mode no macOS
     // osxSign: {},
     // osxNotarize: {
     //   tool: 'notarytool',
@@ -25,24 +44,60 @@ module.exports = {
     //   appleIdPassword: process.env.APPLE_PASSWORD,
     //   teamId: process.env.APPLE_TEAM_ID
     // }
+    
+    // === ARQUIVOS A IGNORAR ===
+    ignore: [
+      /node_modules/,
+      /\.git/,
+      /\.vscode/,
+      /\.env/,
+      /README\.md/
+    ]
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        // Windows - Instalador Squirrel
+        name: 'banana',
+        authors: 'anguissauro',
+        description: 'banana',
+        setupIcon: './assets/icon.ico',
+        loadingGif: './assets/install-spinner.gif', // Opcional: animação durante instalação
+      },
     },
     {
       name: '@electron-forge/maker-zip',
       platforms: ['darwin'],
+      config: {
+        // macOS - arquivo ZIP
+      }
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {},
+      config: {
+        // Linux (Debian/Ubuntu) - pacote .deb
+        options: {
+          maintainer: 'anguissauro',
+          homepage: 'https://github.com/guilhermeangui/electron-app',
+          icon: './assets/icon.png',
+          categories: ['Utility'],
+          section: 'utils'
+        }
+      },
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {},
+      config: {
+        // Linux (Red Hat/Fedora) - pacote .rpm
+        options: {
+          maintainer: 'anguissauro',
+          homepage: 'https://github.com/guilhermeangui/electron-app',
+          icon: './assets/icon.png',
+          categories: ['Utility']
+        }
+      },
     },
   ],
   plugins: [
